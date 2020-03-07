@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<meta name="keywords" content="Hexo,  Lua,  Openresty, 狐狸窝" />
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DPtFgU1ecLVD89n5ACr9_0lnTxTyLpdl1i2NcBVzwmI" />
+
+
+
+  <meta name="msvalidate.01" content="0223D4ED600575F8A2D5FFBEADA519C2" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=" >
+
+
+  <link rel="manifest" href="/favicon/manifest.json">
+
+
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+
+<title>Love2d的界面框架:NÖDE - 狐狸窝</title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="body-wrapper">
+<div class="nav-header">
+    <a href="/">狐狸窝</a>
+    
+    
+    
+     | <a href="/about">关于 </a>
+</div>
+<div class="main-body">
+
+<header>
+<h2>Love2d的界面框架:NÖDE</h2>
+<p>
+    <i>2018-01-27 03:49</i>
+    
+    
+    
+</p>
+</header>
+<article>
+<p>&emsp;&emsp;NÖDE是我业余时间试图编写的一个库，它基于<a href="http://love2d.org/" target="_blank" rel="noopener">LÖVE (11.1)</a> <!--[(GitHub)](https://bitbucket.org/rude/love
+/) -->版本，部分的逻辑代码参考了<a href="https://www.layabox.com/" target="_blank" rel="noopener">LayaAir</a> <a href="https://github.com/layabox/layaair/" target="_blank" rel="noopener">(GitHub)</a>。<br/><br>&emsp;&emsp;编写它的目的只是为了让自己在编写游戏过程中，不用在把时间与精力花费在UI布局与游戏显示对象层次上，而是专注于游戏逻辑。以此来提升开发游戏的速度与效率。<br/><br>&emsp;&emsp;但我深知包装太过臃肿的痛苦。因此尽量不会编写一些非必要性的代码。并且提高它的易扩展性。让它更加适用于不同类型的游戏，更容易配合其他的开发工具。<br/><br>&emsp;&emsp;它追求的是快速、轻量、简单、舒服的开发之道。</p>
+<p>&emsp;&emsp;最新的动态你可以从<a href="https://git.coding.net/fox-/love2d-node.git" target="_blank" rel="noopener">这里</a>得到 </p>
+<!--
+## core
+### Event (事件)
+
+    它并不是一个实例化的类 如果你需要使用他 你应该继承这个类
+-    event:on(type,caller,func,args)
+-    event:off(type,caller,func)
+-    event:call(type,args)
+-    event:offAll(type)
+
+    下面是一些常量
+
+-    event.MOUSE_DOWN
+-    evetn.MOUSE_UP
+-    event.CLICK
+-    event.ONLOADED
+
+### ease (缓动函数)
+
+### Tween (缓动)
+-    Tween.to()
+-    Tween.from()
+-    tween:stop()
+-    tween:resume()
+-    tween.pause()
+-    tween.reset()
+-    tween.set()
+
+### Timer (定时器)
+-    timer.once()
+-    timer.loop()
+-    timer.frameOnce()
+-    timer.frameLoop()
+-    timer.count()
+-    timer.frameCount()
+
+### Node (节点)
+    一个最基础的渲染节点，它继承了event
+
+## ui
+### Dialog
+### ScaleButton
+### Label
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">colde = <span class="built_in">print</span> <span class="string">"2333"</span></span><br></pre></td></tr></table></figure>
+<p>–&gt;</p>
+
+</article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#love2d">love2d</a>, </p>
+
+</div>
+
+</div>
+
+<div class="info-bottom"><div class="info-bottom-text">
+<div itemprop="license">
+
+
+
+
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+  </a>
+
+
+
+&copy;<span class="author" itemprop="copyrightHolder">fox</span>
+ 2017 - 2018 
+
+
+
+
+  | Theme based on <a target="_blank" href="https://fzheng.me/">fzheng.me</a> & <a target="_blank" href="https://www.ogura.io/">仓</a>
+
+
+</div><!-- license -->
+</div></div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532458-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111532458-1');
+</script>
+
+
+<script src="https://use.typekit.net/hvv6ahj.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2018/01/27/love2d-base/';
+        this.page.identifier = '2018/01/27/love2d-base/';
+        this.page.title = 'Love2d的界面框架:NÖDE';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
+
+</html>

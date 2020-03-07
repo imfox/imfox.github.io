@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<meta name="keywords" content="Hexo,  Lua,  Openresty, 狐狸窝" />
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DPtFgU1ecLVD89n5ACr9_0lnTxTyLpdl1i2NcBVzwmI" />
+
+
+
+  <meta name="msvalidate.01" content="0223D4ED600575F8A2D5FFBEADA519C2" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=" >
+
+
+  <link rel="manifest" href="/favicon/manifest.json">
+
+
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+
+<title>编程中常用的公式或者方法 - 狐狸窝</title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="body-wrapper">
+<div class="nav-header">
+    <a href="/">狐狸窝</a>
+    
+    
+    
+     | <a href="/about">关于 </a>
+</div>
+<div class="main-body">
+
+<header>
+<h2>编程中常用的公式或者方法</h2>
+<p>
+    <i>2018-03-27 18:22</i>
+    
+    
+    
+</p>
+</header>
+<article>
+<p>&emsp;这里只是记录一些可能会常用到的检测方法和常用的计算公式，以避免重复编写。<br>&emsp;这些函数lua可以直接使用</p>
+<p>这里是一些简单的碰撞方法</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 点与四边形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hitQuad</span><span class="params">(x, y, lt<span class="comment">--[[ &#123;x,y&#125; --]]</span>, lb<span class="comment">--[[ &#123;x,y&#125; --]]</span>, rt<span class="comment">--[[ &#123;x,y&#125; --]]</span>, rb<span class="comment">--[[ &#123;x,y&#125; --]]</span>)</span></span> </span><br><span class="line">	<span class="keyword">local</span> a = (lt.x - lb.x) * (y - lb.y) - (lt.y - lb.y) * (x - lb.x);</span><br><span class="line">	<span class="keyword">local</span> b = (rt.x - lt.x) * (y - lt.y) - (rt.y - lt.y) * (x - lt.x);</span><br><span class="line">	<span class="keyword">local</span> c = (rb.x - rt.x) * (y - rt.y) - (rb.y - rt.y) * (x - rt.x);</span><br><span class="line">	<span class="keyword">local</span> d = (lb.x - rb.x) * (y - rb.y) - (lb.y - rb.y) * (x - rb.x);</span><br><span class="line">	<span class="keyword">if</span> ((a &gt; <span class="number">0</span> <span class="keyword">and</span> b &gt; <span class="number">0</span> <span class="keyword">and</span> c &gt; <span class="number">0</span> <span class="keyword">and</span> d &gt; <span class="number">0</span>) <span class="keyword">or</span> (a &lt; <span class="number">0</span> <span class="keyword">and</span> b &lt; <span class="number">0</span> <span class="keyword">and</span> c &lt; <span class="number">0</span> <span class="keyword">and</span> d &lt; <span class="number">0</span>)) <span class="keyword">then</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 点与矩形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testPoint</span><span class="params">(x0,y0,w0,h0,x1,y1)</span></span></span><br><span class="line">    <span class="keyword">return</span> x1 &gt;= x0 <span class="keyword">and</span> x1 &lt;= x0 + w0 <span class="keyword">and</span> y1&gt;=y0 <span class="keyword">and</span> y1 &lt; y0 + h0</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 矩形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testRect</span><span class="params">(x0,y0,w0,h0,x1,y1,w1,h1)</span></span></span><br><span class="line">    <span class="keyword">return</span> x0&lt;x1+w1 <span class="keyword">and</span> y0&lt;y1+h1 <span class="keyword">and</span> x0+w0&gt;x1 <span class="keyword">and</span> y0+h0&gt;y1</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 圆形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testCircle</span><span class="params">(x0,y0,r0,x1,y1,r1)</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">math</span>.<span class="built_in">sqrt</span>(<span class="built_in">math</span>.<span class="built_in">pow</span>(<span class="built_in">math</span>.<span class="built_in">abs</span>(x0-x1),<span class="number">2</span>)+<span class="built_in">math</span>.<span class="built_in">pow</span>(<span class="built_in">math</span>.<span class="built_in">abs</span>(y0-y1),<span class="number">2</span>)) &lt; r0+r1</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 点与圆形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testCircle</span><span class="params">(x0,y0,x1,y1,r1)</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">math</span>.<span class="built_in">sqrt</span>(<span class="built_in">math</span>.<span class="built_in">pow</span>(<span class="built_in">math</span>.<span class="built_in">abs</span>(x0-x1),<span class="number">2</span>)+<span class="built_in">math</span>.<span class="built_in">pow</span>(<span class="built_in">math</span>.<span class="built_in">abs</span>(y0-y1),<span class="number">2</span>)) &lt; r1</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>这个方法用于计算一个点(x,y)相对于原点(ox,oy)旋转了某个角度之后(r)的所在的坐标</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rotate</span><span class="params">(ox,oy,x,y,r)</span></span></span><br><span class="line">    r=<span class="built_in">math</span>.<span class="built_in">rad</span>(r)</span><br><span class="line">	<span class="keyword">return</span> (x - ox)*<span class="built_in">math</span>.<span class="built_in">cos</span>(r) - (y - oy)*<span class="built_in">math</span>.<span class="built_in">sin</span>(r) + ox,(x - ox)*<span class="built_in">math</span>.<span class="built_in">sin</span>(r) + (y - oy)*<span class="built_in">math</span>.<span class="built_in">cos</span>(r) + oy</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<!--
+function htmlColor2rgb(color)
+    local r,g,b = 0,0,0
+    local color = string.sub(color,-(#color-1));
+    if #color == 3 then 
+        local _,_,a1,a2,a3 = string.find(color,"(%x)(%x)(%x)")
+        r = (tonumber("0x"..a1)+1)*16-1        
+        g = (tonumber("0x"..a2)+1)*16-1
+        b = (tonumber("0x"..a3)+1)*16-1
+    elseif #color == 6 then
+        local _,_,a1,a2,a3 = string.find(color,"(%x%x)(%x%x)(%x%x)");
+        r,g,b = tonumber("0x"..a1),tonumber("0x"..a2),tonumber("0x"..a3)
+    end
+    return r,g,b
+end
+-->
+</article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#lua">lua</a>, </p>
+
+</div>
+
+</div>
+
+<div class="info-bottom"><div class="info-bottom-text">
+<div itemprop="license">
+
+
+
+
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+  </a>
+
+
+
+&copy;<span class="author" itemprop="copyrightHolder">fox</span>
+ 2017 - 2018 
+
+
+
+
+  | Theme based on <a target="_blank" href="https://fzheng.me/">fzheng.me</a> & <a target="_blank" href="https://www.ogura.io/">仓</a>
+
+
+</div><!-- license -->
+</div></div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532458-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111532458-1');
+</script>
+
+
+<script src="https://use.typekit.net/hvv6ahj.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2018/03/28/test-collision/';
+        this.page.identifier = '2018/03/28/test-collision/';
+        this.page.title = '编程中常用的公式或者方法';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
+
+</html>

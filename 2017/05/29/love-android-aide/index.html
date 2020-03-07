@@ -63,7 +63,7 @@
   <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
 
 
-<title>狐狸窝</title>
+<title>在安卓手机IDEA下生成Love2d的APK包 - 狐狸窝</title>
 <meta name="generator" content="Hexo 4.2.0"></head>
 <body>
 <div class="body-wrapper">
@@ -76,81 +76,29 @@
 </div>
 <div class="main-body">
 
-
-<p style="margin-top:1.2em;margin-bottom:0;"><b>文章</b> | 按<a href="/tags#tags">标签</a>浏览<a href="/atom.xml"></a></p>
-<hr>
-
+<header>
+<h2>在安卓手机IDEA下生成Love2d的APK包</h2>
+<p>
+    <i>2017-05-28 16:43</i>
+    
+    
+    
+</p>
+</header>
 <article>
-<blockquote><p>是何处曾相见~</p></blockquote>
+<p> 首先您得有一台Android手机(这不是废话吗)</p>
+<p> 然后在手机下载一个AIDE软件，我们将使用这个APK来编译我们的APK。这样的话，会比在Windows上编译简单多了(无需搭建各种环境)。</p>
+<p> 然后下载(到手机)我准备的模板。只需要稍微的修改一些里面的属性就好了。<br> 这是链接: <a href="https://pan.baidu.com/s/1qXYz4Ag" target="_blank" rel="noopener">https://pan.baidu.com/s/1qXYz4Ag</a> 密码: pgr9</p>
+<p><strong>下面操作可完全在手机进行</strong><br> 首先把下载的模板解压出来，解压到本机存储最好。解压后目录(这里用的电脑截图..不要在意)<br><img src="love-android-aide/1.png" alt=""><br> 然后把你的游戏放在assets目录下并且命名为game.love。</p>
+<p>打开AIDE，界面如下<br><img src="love-android-aide/2.jpg" alt=""><br>点击右下角蓝色的圆形按钮，会弹出一个目录选择界面，找到您解压的目录，然后选择 打开这个Android APP项目<br><img src="love-android-aide/3.jpg" alt="">)<img src="love-android-aide/4.jpg" alt=""></p>
+<p> 到这里已经算是完成了<br> 可以在下面的文件列表中选择AndroidManifest.xml文件，进行一些简单的修改(APK名、版本号、横竖屏之类的)，这里我就不唠叨了，可以自行百度一下，然后 点击右上角的 黑色三角形 进行编译运行。就会自己生产一个APK了(BIN目录下也能找到哟)。</p>
+
 </article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#love2d">love2d</a>, </p>
 
-<table>
-
-<tr class="blog-table">
-<td>2018-09-06</td>
-<td >
-    
-        <a class="post-list-item" href="/2018/09/07/asyncnodesemantics/">译·异步JavaScript的语义</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2018-05-05</td>
-<td >
-    
-        <a class="post-list-item" href="#" style="color:#555555;">隐藏文章</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2018-03-27</td>
-<td >
-    
-        <a class="post-list-item" href="/2018/03/28/test-collision/">编程中常用的公式或者方法</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2018-03-25</td>
-<td >
-    
-        <a class="post-list-item" href="/2018/03/25/lua-class/">Lua中模拟class并支持setter与getter的实现</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2018-03-01</td>
-<td >
-    
-        <a class="post-list-item" href="/2018/03/01/lua-observer/">Lua中实现简单的JavaScript MobX模块</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2018-01-27</td>
-<td >
-    
-        <a class="post-list-item" href="/2018/01/27/love2d-base/">Love2d的界面框架:NÖDE</a>
-    
-</td>
-</tr>
-
-<tr class="blog-table">
-<td>2017-05-28</td>
-<td >
-    
-        <a class="post-list-item" href="/2017/05/29/love-android-aide/">在安卓手机IDEA下生成Love2d的APK包</a>
-    
-</td>
-</tr>
-
-
-</table>
+</div>
 
 </div>
 
@@ -226,5 +174,34 @@
 
 <script src="https://use.typekit.net/hvv6ahj.js"></script>
 <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2017/05/29/love-android-aide/';
+        this.page.identifier = '2017/05/29/love-android-aide/';
+        this.page.title = '在安卓手机IDEA下生成Love2d的APK包';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
 
 </html>
