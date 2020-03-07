@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<meta name="keywords" content="Hexo,  Lua,  Openresty, 狐狸窝" />
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DPtFgU1ecLVD89n5ACr9_0lnTxTyLpdl1i2NcBVzwmI" />
+
+
+
+  <meta name="msvalidate.01" content="0223D4ED600575F8A2D5FFBEADA519C2" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=" >
+
+
+  <link rel="manifest" href="/favicon/manifest.json">
+
+
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+
+<title>Typescript的装饰器实现优雅的编写MVC Control类 - 狐狸窝</title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="body-wrapper">
+<div class="nav-header">
+    <a href="/">狐狸窝</a>
+    
+    
+    
+     | <a href="/about">关于 </a>
+</div>
+<div class="main-body">
+
+<header>
+<h2>Typescript的装饰器实现优雅的编写MVC Control类</h2>
+<p>
+    <i>2018-11-19 19:26</i>
+    
+    
+    
+</p>
+</header>
+<article>
+<p>使用MVC框架时，为了降低视图与模型之间的耦合性，会在Control中编写与View、Model交互的逻辑，当然每个人的MVC实现方式可能都有所不同，但大体还是如此。本篇文章编写MVC将是View、Model以事件调用Control交互为模型，在Typescript的装饰器的辅助下编写一些使编写Control逻辑更舒适的代码。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.Windows 10<br>2.Typescript 3.1</p>
+<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>这里可能需要对Typescript中的装饰有一些小小的了解，如果你不是很清楚可以通过<a href="https://www.tslang.cn/docs/handbook/decorators.html" target="_blank" rel="noopener">这里</a>先了解一下再看也不迟。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>下面编写一些基础的逻辑和类型声明，将使用ControlManager.model_msg_mgr用于相关的对象数据缓存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ConstrolBase.ts</span><br><span class="line">class ControlManager &#123;</span><br><span class="line">    static model_msg_mgr &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    static getModelEvents(pt): &#123; [e: number]: Function[] &#125; &#123;</span><br><span class="line">        if (ControlManager.model_msg_mgr[pt])</span><br><span class="line">            return ControlManager.model_msg_mgr[pt];</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static setModelEvents(pt, e: number, cb: Function) &#123;</span><br><span class="line">        if (ControlManager.model_msg_mgr[pt] &#x3D;&#x3D;&#x3D; undefined)</span><br><span class="line">            ControlManager.model_msg_mgr[pt] &#x3D; &#123;&#125;;</span><br><span class="line">        if (ControlManager.model_msg_mgr[pt][e] &#x3D;&#x3D;&#x3D; undefined)</span><br><span class="line">            ControlManager.model_msg_mgr[pt][e] &#x3D; [];</span><br><span class="line">        ControlManager.model_msg_mgr[pt][e].push(cb);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;** 控制器原形 *&#x2F;</span><br><span class="line">class ControlBase &#123;</span><br><span class="line">    protected msgMap &#x3D; &#123;&#125;;</span><br><span class="line">    protected View: any;</span><br><span class="line">    protected Model: any;</span><br><span class="line">    constructor() &#123; &#125;</span><br><span class="line">    public register(msg: number, callback: Function) &#123;</span><br><span class="line">        this.msgMap[msg] &#x3D; callback;</span><br><span class="line">    &#125;</span><br><span class="line">    public trigger(msg: number, ...params: any[]) &#123;</span><br><span class="line">        if (this.msgMap[msg])</span><br><span class="line">            this.msgMap[msg].call(this, ...params)</span><br><span class="line">    &#125;</span><br><span class="line">    public unregister(msg: number) &#123;</span><br><span class="line">        if (this.msgMap[msg])</span><br><span class="line">            delete this.msgMap[msg]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里则编写一些逻辑，用于将一些数据储存到ControlManager</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Decorate.ts</span><br><span class="line">&#x2F;** 注册 *&#x2F;</span><br><span class="line">function control_register(target: any) &#123;</span><br><span class="line">    &#x2F;** 原形 *&#x2F;</span><br><span class="line">    const original &#x3D; target;</span><br><span class="line">    const newCls: any &#x3D; function (...args) &#123;</span><br><span class="line">        const cls: any &#x3D; function () &#123; return original.call(this, ...args) &#125;</span><br><span class="line">        cls.prototype &#x3D; original.prototype;</span><br><span class="line">        let instance &#x3D; new cls();</span><br><span class="line"></span><br><span class="line">        let em &#x3D; ControlManager.getModelEvents(cls.prototype);</span><br><span class="line">        for (const e in em) &#123;</span><br><span class="line">            em[e].forEach((cb) &#x3D;&gt; instance.register(parseInt(e), cb));</span><br><span class="line">        &#125;</span><br><span class="line">        return instance</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return newCls;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;** 事件注册 *&#x2F;</span><br><span class="line">function control_event_register(msg) &#123;</span><br><span class="line">    return function (pt, name, desc) &#123;</span><br><span class="line">        ControlManager.setModelEvents(pt, msg, desc.value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面粗略的实现BagControl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; BagControl.ts</span><br><span class="line">&#x2F;** 控制器消息 *&#x2F;</span><br><span class="line">enum BagConst &#123;</span><br><span class="line">    Buy &#x3D; 1000,</span><br><span class="line">    Sell</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@control_register</span><br><span class="line">class BagControl extends ControlBase &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        super();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @control_event_register(BagConst.Buy)</span><br><span class="line">    private buy(id: string, count: number) &#123;</span><br><span class="line">        &#x2F;&#x2F; ...操作视图或者模型</span><br><span class="line">        console.log(&#96;你购买$&#123;count&#125;个$&#123;id&#125;.&#96;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @control_event_register(BagConst.Sell)</span><br><span class="line">    private sell(id: string, count: number) &#123;</span><br><span class="line">        &#x2F;&#x2F; ...操作视图或者模型</span><br><span class="line">        console.log(&#96;你出售$&#123;count&#125;个$&#123;id&#125;.&#96;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子，我们会测试BagConst.Buy与BagConst.Sell消息是否成功的注册了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let model &#x3D; new BagControl();</span><br><span class="line">model.trigger(BagConst.Buy, &quot;苹果&quot;, 10);</span><br><span class="line">model.trigger(BagConst.Sell, &quot;梨&quot;, 10);</span><br></pre></td></tr></table></figure>
+<p>这样使用的话会比在constructor中重复的编码调用this.register(…)好很多。但实际上还是有一些问题的，例如无法准确的控制注册的顺序以及更改相关事件的调用顺序流程时，使用这种方式就会显得有些糟糕了。并且有一个致命的缺点就是在使用model instanceof BagControl将不能得到你想看到的结果。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这只是我突发奇想而编写的，并没有进行过专业严格的测试，不确定是否能应用于项目之中，使用需要三思。当然你或是有什么好的方式或是意见也可以邮件给我交流讨论。</p>
+
+</article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#typescript">typescript</a>, </p>
+
+</div>
+
+</div>
+
+<div class="info-bottom"><div class="info-bottom-text">
+<div itemprop="license">
+
+
+
+
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+  </a>
+
+
+
+&copy;<span class="author" itemprop="copyrightHolder">fox</span>
+ 2017 - 2018 
+
+
+
+
+  | Theme based on <a target="_blank" href="https://fzheng.me/">fzheng.me</a> & <a target="_blank" href="https://www.ogura.io/">仓</a>
+
+
+</div><!-- license -->
+</div></div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532458-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111532458-1');
+</script>
+
+
+<script src="https://use.typekit.net/hvv6ahj.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2018/11/20/ts-control/';
+        this.page.identifier = '2018/11/20/ts-control/';
+        this.page.title = 'Typescript的装饰器实现优雅的编写MVC Control类';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
+
+</html>
