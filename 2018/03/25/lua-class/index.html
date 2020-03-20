@@ -76,16 +76,18 @@
 </div>
 <div class="main-body">
 
+
 <header>
 <h2>Lua中模拟class并支持setter与getter的实现</h2>
 <p>
-    <i>2018-03-25 04:12</i>
+    <i>2018-03-25 12:12</i>
     
     
     
 </p>
 </header>
 <article>
+
 <p>这里编写class的方式参考了quick cocos的class实现。但在此之上添加setter与getter的实现，实现逻辑在了解lua元表概念的人眼中应该比较容易理解，所以就不做详细的解释了。</p>
 <hr>
 <p>下面是class的实现:</p>
@@ -96,12 +98,14 @@
 <p>这里建议的是如果你有setter与getter的需求，最好是在ctor方法中实现。需要注意的是setter与getter已经class使用了，所以方法名使用setter或者getter将会造成错误。</p>
 <p>它输出的结果如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; a</span><br><span class="line">&gt; b</span><br><span class="line">&gt; c</span><br><span class="line">&gt; d</span><br><span class="line">&gt; funcA</span><br><span class="line">&gt; setter x:hello</span><br><span class="line">&gt; getter x:hello</span><br><span class="line">&gt; hello</span><br><span class="line">&gt; funcC</span><br><span class="line">&gt; funcB</span><br></pre></td></tr></table></figure>
+
 </article>
 <div id="info-bottom">
 <hr>
 <p>标签: <a href="/tags#lua">lua</a>, </p>
 
 </div>
+
 
 </div>
 

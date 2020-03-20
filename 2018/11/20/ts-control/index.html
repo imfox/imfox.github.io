@@ -76,16 +76,18 @@
 </div>
 <div class="main-body">
 
+
 <header>
 <h2>Typescript的装饰器实现优雅的编写MVC Control类</h2>
 <p>
-    <i>2018-11-19 19:26</i>
+    <i>2018-11-20 03:26</i>
     
     
     
 </p>
 </header>
 <article>
+
 <p>使用MVC框架时，为了降低视图与模型之间的耦合性，会在Control中编写与View、Model交互的逻辑，当然每个人的MVC实现方式可能都有所不同，但大体还是如此。本篇文章编写MVC将是View、Model以事件调用Control交互为模型，在Typescript的装饰器的辅助下编写一些使编写Control逻辑更舒适的代码。</p>
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>1.Windows 10<br>2.Typescript 3.1</p>
 <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>这里可能需要对Typescript中的装饰有一些小小的了解，如果你不是很清楚可以通过<a href="https://www.tslang.cn/docs/handbook/decorators.html" target="_blank" rel="noopener">这里</a>先了解一下再看也不迟。</p>
@@ -100,12 +102,14 @@
 <p>这样使用的话会比在constructor中重复的编码调用this.register(…)好很多。但实际上还是有一些问题的，例如无法准确的控制注册的顺序以及更改相关事件的调用顺序流程时，使用这种方式就会显得有些糟糕了。并且有一个致命的缺点就是在使用model instanceof BagControl将不能得到你想看到的结果。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这只是我突发奇想而编写的，并没有进行过专业严格的测试，不确定是否能应用于项目之中，使用需要三思。当然你或是有什么好的方式或是意见也可以邮件给我交流讨论。</p>
 
+
 </article>
 <div id="info-bottom">
 <hr>
 <p>标签: <a href="/tags#typescript">typescript</a>, </p>
 
 </div>
+
 
 </div>
 

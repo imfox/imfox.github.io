@@ -76,16 +76,18 @@
 </div>
 <div class="main-body">
 
+
 <header>
 <h2>编程中常用的公式或者方法</h2>
 <p>
-    <i>2018-03-27 18:22</i>
+    <i>2018-03-28 02:22</i>
     
     
     
 </p>
 </header>
 <article>
+
 <p>&emsp;这里只是记录一些可能会常用到的检测方法和常用的计算公式，以避免重复编写。<br>&emsp;这些函数lua可以直接使用</p>
 <p>这里是一些简单的碰撞方法</p>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 点与四边形碰撞</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hitQuad</span><span class="params">(x, y, lt<span class="comment">--[[ &#123;x,y&#125; --]]</span>, lb<span class="comment">--[[ &#123;x,y&#125; --]]</span>, rt<span class="comment">--[[ &#123;x,y&#125; --]]</span>, rb<span class="comment">--[[ &#123;x,y&#125; --]]</span>)</span></span> </span><br><span class="line">	<span class="keyword">local</span> a = (lt.x - lb.x) * (y - lb.y) - (lt.y - lb.y) * (x - lb.x);</span><br><span class="line">	<span class="keyword">local</span> b = (rt.x - lt.x) * (y - lt.y) - (rt.y - lt.y) * (x - lt.x);</span><br><span class="line">	<span class="keyword">local</span> c = (rb.x - rt.x) * (y - rt.y) - (rb.y - rt.y) * (x - rt.x);</span><br><span class="line">	<span class="keyword">local</span> d = (lb.x - rb.x) * (y - rb.y) - (lb.y - rb.y) * (x - rb.x);</span><br><span class="line">	<span class="keyword">if</span> ((a &gt; <span class="number">0</span> <span class="keyword">and</span> b &gt; <span class="number">0</span> <span class="keyword">and</span> c &gt; <span class="number">0</span> <span class="keyword">and</span> d &gt; <span class="number">0</span>) <span class="keyword">or</span> (a &lt; <span class="number">0</span> <span class="keyword">and</span> b &lt; <span class="number">0</span> <span class="keyword">and</span> c &lt; <span class="number">0</span> <span class="keyword">and</span> d &lt; <span class="number">0</span>)) <span class="keyword">then</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -117,12 +119,14 @@ function htmlColor2rgb(color)
     return r,g,b
 end
 -->
+
 </article>
 <div id="info-bottom">
 <hr>
 <p>标签: <a href="/tags#lua">lua</a>, </p>
 
 </div>
+
 
 </div>
 
