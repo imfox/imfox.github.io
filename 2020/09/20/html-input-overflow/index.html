@@ -63,7 +63,7 @@
   <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
 
 
-<title>html_input_overflow - 狐狸窝</title>
+<title>HTML在table中Input使用width:100%会溢出的问题 - 狐狸窝</title>
 <meta name="generator" content="Hexo 4.2.0"></head>
 <body>
 <div class="body-wrapper">
@@ -78,7 +78,7 @@
 
 
 <header>
-<h2>html_input_overflow</h2>
+<h2>HTML在table中Input使用width:100%会溢出的问题</h2>
 <p>
     <i>2020-09-19 23:21</i>
     
@@ -88,12 +88,14 @@
 </header>
 <article>
 
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">box-sizing</span>: <span class="selector-tag">border-box</span>;</span><br><span class="line"><span class="selector-tag">-webkit-box-sizing</span>: <span class="selector-tag">border-box</span>;</span><br><span class="line"><span class="selector-tag">-moz-box-sizing</span>: <span class="selector-tag">border-box</span>;</span><br></pre></td></tr></table></figure>
+<p>在Input的style中添加上面的样式即可解决</p>
 
 
 </article>
 <div id="info-bottom">
 <hr>
-<p>标签: </p>
+<p>标签: <a href="/tags#html">html</a>, </p>
 
 </div>
 
@@ -179,7 +181,7 @@
       var disqus_config = function () {
         this.page.url = 'http://yoursite.com/2020/09/20/html-input-overflow/';
         this.page.identifier = '2020/09/20/html-input-overflow/';
-        this.page.title = 'html_input_overflow';
+        this.page.title = 'HTML在table中Input使用width:100%会溢出的问题';
         };
       function loadComments () {
         var d = document, s = d.createElement('script');
