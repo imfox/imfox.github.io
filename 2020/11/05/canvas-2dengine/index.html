@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<meta name="keywords" content="Hexo,  Lua,  Openresty, 狐狸窝" />
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DPtFgU1ecLVD89n5ACr9_0lnTxTyLpdl1i2NcBVzwmI" />
+
+
+
+  <meta name="msvalidate.01" content="0223D4ED600575F8A2D5FFBEADA519C2" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=" >
+
+
+  <link rel="manifest" href="/favicon/manifest.json">
+
+
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+
+<title>使用HTML5 Canvas编写的2D游戏库 - 狐狸窝</title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="body-wrapper">
+<div class="nav-header">
+    <a href="/">狐狸窝</a>
+    
+    
+    
+     | <a href="/about">关于 </a>
+</div>
+<div class="main-body">
+
+
+<header>
+<h2>使用HTML5 Canvas编写的2D游戏库</h2>
+<p>
+    <i>2020-11-05 03:10</i>
+    
+    
+    
+</p>
+</header>
+<article>
+
+<p>在某次尝试做网页小游戏的时候，发现运行游戏至少需要一个<code>HTTP文件服务器</code>用于读取资源，而我的想法中并不需要，我印象中加载图片也并不需要，所以在这种情况下，我试着自己编写了一个游戏库。(事后发现部分引擎也不需要开<code>HTTP文件服务器</code>就能加载资源..难受..)</p>
+<h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p>因为是在TypeScript上编写JS使用需要编译成JS文件，去除空行以及注释后代码总计1500行左右。<br>这个库渲染只有最简单的<code>节点</code>结构，只有2个基础组件Image、Label。并编写了基础的<code>鼠标事件</code>与手机<code>触屏事件</code>编写轻量小游戏应该是足够了。</p>
+<p>正确初始化之后会创建一个根节点<code>XOF.stage</code>(这里学习了Laya的方式)，而之后的一切渲染对象都需要添加在<code>XOF.stage</code>的子节点列表中才能显示，使用<code>XOF.stage.addChild(obj)</code>方法来添加渲染对象，移除则使用<code>XOF.stage.removeChild(obj)</code>方法。</p>
+<p>使用方式与现在大部分的2D引擎类似。</p>
+<p>Github: <a href="https://github.com/imfox/XOF_engine" target="_blank" rel="noopener">https://github.com/imfox/XOF_engine</a><br>(叫做XOF完全是因为没想到好的名字就把FOX反过来使用了..笑)</p>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><!-- 使用这个库并显示`hello world`示例。 -->
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ts中使用</span></span><br><span class="line">XOF.init(<span class="built_in">document</span>, <span class="built_in">document</span>.getElementById(<span class="string">'gameMain'</span>) <span class="keyword">as</span> <span class="built_in">any</span>, <span class="number">1280</span>, <span class="number">720</span>);</span><br><span class="line"><span class="keyword">let</span> lab = <span class="keyword">new</span> XOF.Label();</span><br><span class="line">lab.text = <span class="string">"hello world"</span>;</span><br><span class="line">lab.pos(<span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">XOF.stage.addChild(lab);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// js中使用....</span></span><br><span class="line">XOF.init(<span class="built_in">document</span>, <span class="built_in">document</span>.getElementById(<span class="string">'gameMain'</span>), <span class="number">1280</span>, <span class="number">720</span>);</span><br><span class="line"><span class="keyword">let</span> lab = <span class="keyword">new</span> XOF.Label();</span><br><span class="line">lab.text = <span class="string">"hello world"</span>;</span><br><span class="line">lab.pos(<span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">XOF.stage.addChild(lab);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这里附上我编写的一个DEMO: <a href="https://xfox.gitee.io/rain/" target="_blank" rel="noopener">https://xfox.gitee.io/rain/</a></p>
+<p>适用于编写自娱自乐的项目，商业项目还是乖乖的使用现在流行的引擎吧。</p>
+
+
+</article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#typescript">typescript</a>, </p>
+
+</div>
+
+
+</div>
+
+<div class="info-bottom"><div class="info-bottom-text">
+<div itemprop="license">
+
+
+
+
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+  </a>
+
+
+
+&copy;<span class="author" itemprop="copyrightHolder">fox</span>
+ 2017 - 2018 
+
+
+
+
+  | Theme based on <a target="_blank" href="https://fzheng.me/">fzheng.me</a> & <a target="_blank" href="https://www.ogura.io/">仓</a>
+
+
+</div><!-- license -->
+</div></div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532458-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111532458-1');
+</script>
+
+
+<script src="https://use.typekit.net/hvv6ahj.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2020/11/05/canvas-2dengine/';
+        this.page.identifier = '2020/11/05/canvas-2dengine/';
+        this.page.title = '使用HTML5 Canvas编写的2D游戏库';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
+
+</html>
