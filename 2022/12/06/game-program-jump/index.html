@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<meta name="keywords" content="Hexo,  Lua,  Openresty, 狐狸窝" />
+
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DPtFgU1ecLVD89n5ACr9_0lnTxTyLpdl1i2NcBVzwmI" />
+
+
+
+  <meta name="msvalidate.01" content="0223D4ED600575F8A2D5FFBEADA519C2" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=">
+
+
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=" >
+
+
+  <link rel="manifest" href="/favicon/manifest.json">
+
+
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+
+<title>重力强度和跳跃高度在某种程度上取决于游戏的帧率 - 狐狸窝</title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="body-wrapper">
+<div class="nav-header">
+    <a href="/">狐狸窝</a>
+    
+    
+    
+     | <a href="/about">关于 </a>
+</div>
+<div class="main-body">
+
+
+<header>
+<h2>重力强度和跳跃高度在某种程度上取决于游戏的帧率</h2>
+<p>
+    <i>2022-12-05 18:40</i>
+    
+    
+    
+</p>
+</header>
+<article>
+
+<p>转载:<a href="https://www.cnpython.com/qa/1466090" target="_blank" rel="noopener">https://www.cnpython.com/qa/1466090</a></p>
+<hr>
+<ul>
+<li>提问<blockquote>
+<p>我目前正处于使用pygame为学校项目制作经典2D平台的早期阶段，当时我正在试验跳跃机制，这时我遇到了这个相当奇怪的问题。即使我考虑了更新之间的时间差，当帧间时间增加时，跳转长度和高度都会缩短</p>
+<p>Here我让播放器对象的3个实例在屏幕上跳跃，以700像素/秒的恒定速度向右移动，初始向上速度为700像素/秒。它们各自的人工增加的最小delta_时间分别为0.001s、0.017s和0.1s</p>
+<p>这是在播放器对象的更新函数中计算新速度和位置向量的方式，该函数每帧调用一次（增量时间从主更新循环传入）：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.speed.y += <span class="number">1000.0</span> * delta_time</span><br><span class="line">self.position += self.speed * delta_time</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这就是在主更新循环的每个周期结束时计算delta_时间的方式（第一帧的值为零）：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">delta_time = time.time() - pre_time</span><br><span class="line">pre_time = time.time()</span><br><span class="line"><span class="keyword">if</span> delta_time &lt; min_delta_time:</span><br><span class="line">    time.sleep(min_delta_time - delta_time)</span><br><span class="line">    delta_time += time.time() - pre_time</span><br><span class="line">    pre_time = time.time()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>最小增量时间表示帧更新之间的最小时间</p>
+<p>在多次尝试修复此问题后，我非常确定该缺陷存在于更新速度的线路中，但即使在仔细检查数学后，我仍然无法找出问题所在。起初我认为可能是三角洲时间不精确，但如果是这样的话，水平速度也会受到影响，轨迹仍会排列整齐</p>
+<p>那么我能改变什么使跳跃/重力更一致吗</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<ul>
+<li>回答<blockquote>
+<p>这与其说是编码中的错误，还不如说是模型中的逻辑错误：通过将加速建模为在更新点瞬时发生，而不是在整个时间跨度内连续发生，引入了不准确，这将使更新越稀疏，误差就越大</p>
+<p>为了说明这一点，考虑一个对象从停止时加速到1M/s^ 2。如果我们像上面那样以1秒的间隔建模，六秒钟后，我们的模型会将对象放置在21m处。以2秒的间隔重复，我们将其设置为24米，3秒的间隔将其设置为27米。但是，实际位置应为18米</p>
+<p>解决方案是考虑在模拟时间跨度上的平均速度，而不是采样点处的瞬时速度。换句话说，不是计算整个跨度的加速度值，而是使用结果作为整个跨度的速度，加上跨度加速度的一半，使用该速度计算在该跨度内行驶的距离，然后加上剩余的一半加速度<br>因此，您的更新逻辑将类似于：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.speed.y += <span class="number">500.0</span> * delta_time</span><br><span class="line">self.position += self.speed * delta_time</span><br><span class="line">self.speed.y += <span class="number">500.0</span> * delta_time</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<ul>
+<li>JS的简单实现<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> gameObject = &#123; y = <span class="number">0</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> jumpPower = <span class="number">600</span>;</span><br><span class="line"><span class="keyword">let</span> _G = <span class="number">2000</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params">dt</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (jumpPower &gt; <span class="number">0</span> || gameObject.y &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        gameObject.y -= (jumpPower / <span class="number">2</span>) * dt;</span><br><span class="line">        jumpPower -= _G * dt;</span><br><span class="line">        gameObject.y -= (jumpPower / <span class="number">2</span>) * dt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+
+</article>
+<div id="info-bottom">
+<hr>
+<p>标签: <a href="/tags#javascript">javascript</a>, </p>
+
+</div>
+
+
+</div>
+
+<div class="info-bottom"><div class="info-bottom-text">
+<div itemprop="license">
+
+
+
+
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+  </a>
+
+
+
+&copy;<span class="author" itemprop="copyrightHolder">fox</span>
+ 2017 - 2018 
+
+
+
+
+  | Theme based on <a target="_blank" href="https://fzheng.me/">fzheng.me</a> & <a target="_blank" href="https://www.ogura.io/">仓</a>
+
+
+</div><!-- license -->
+</div></div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111532458-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111532458-1');
+</script>
+
+
+<script src="https://use.typekit.net/hvv6ahj.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2022/12/06/game-program-jump/';
+        this.page.identifier = '2022/12/06/game-program-jump/';
+        this.page.title = '重力强度和跳跃高度在某种程度上取决于游戏的帧率';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://www-ogura-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(document).ready(function () {
+            $('.disqus_btn').on('click', function(){
+                // ajax request to load the disqus javascript
+                loadComments();
+                // hide the button once comments load
+                $(this).fadeOut();
+            });
+        });
+      
+    </script>
+  
+
+
+
+</html>
